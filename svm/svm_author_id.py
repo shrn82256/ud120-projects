@@ -20,20 +20,32 @@ from email_preprocess import preprocess
 features_train, features_test, labels_train, labels_test = preprocess()
 
 
+# features_train = features_train[:len(features_train)/100]
+# labels_train = labels_train[:len(labels_train)/100]
 
 
 #########################################################
 ### your code goes here ###
 
 #########################################################
+import numpy as np
+for c in [10000]:
+	from sklearn.svm import SVC
 
-from sklearn.svm import SVC
+	clf = SVC(kernel='rbf', C=c)
 
-clf = SVC(kernel='linear', gamma=1.0)
+	t0 = time()
+	clf.fit(features_train, labels_train)
+	print "training time:", round(time()-t0, 3), "s"
 
-clf.fit(features_train, labels_train)
+	t1 = time()
+	pred = clf.predict(features_test)
+	print "training time:", round(time()-t1, 3), "s"
 
-# pred = clf.predict(features_test)
+	t2 = time()
+	accuracy = clf.score(features_test, labels_test)
+	print "training time:", round(time()-t2, 3), "s"
 
-accuracy = clf.score(features_test, labels_test)
-print(accuracy)
+	print "\naccuracy: ", accuracy
+
+	print np.count_nonzero(pred == 1)
