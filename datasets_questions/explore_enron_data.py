@@ -15,8 +15,15 @@
     
 """
 
-import pickle
-
+import cPickle as pickle
+from pprint import pprint
 enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
 
+hasTotPayments = 0
+for key, value in enron_data.iteritems():
+	if value["total_payments"] == "NaN" and value["poi"] == 1:
+		hasTotPayments += 1
 
+print hasTotPayments, len(enron_data)
+# print([value["poi"] ].count(1))
+# pprint(enron_data["SKILLING JEFFREY K"])
